@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dagelijkse Tarot Kaart</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f1f1f1;
+            text-align: center;
+            padding: 20px;
+        }
+        .card-container {
+            display: inline-block;
+            margin-top: 20px;
+            text-align: center;
+        }
+        .card-img {
+            width: 300px;
+            height: auto;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .card-description {
+            margin-top: 20px;
+            font-size: 18px;
+            color: #333;
+        }
+        .button-container {
+            margin-top: 20px;
+        }
+        .button-container a {
+            background-color: #b39704;
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Dagelijkse Tarot Kaart</h1>
+    <p>Ontdek je kaart van de dag, rechtop of omgekeerd, en krijg inzicht!</p>
+
+    <div class="card-container">
+        <img id="card-image" class="card-img" src="" alt="Tarot Kaart">
+        <div id="card-description" class="card-description"></div>
+    </div>
+
+    <div class="button-container">
+        <button onclick="drawCard()">Trek een Kaart</button>
+    </div>
+
+    <div class="button-container">
+        <a href="https://www.nieuwealchemist.nl/live-reading/" target="_blank">Ontdek je persoonlijke reading</a>
+    </div>
+
+    <script>
+        const cards = [
+            {
+                name: "De Dwaas",
+                image: "https://github.com/nieuwealchemistNL/dagelijksTarot/blob/main/0%20-%20The%20Fool.jpg?raw=true",
+                descriptionUpright: "De Dwaas vertegenwoordigt nieuwe beginnen, avontuur en onbevangenheid. Het is een uitnodiging om de sprong in het onbekende te wagen zonder angst voor de toekomst. Deze kaart moedigt je aan om onbevangen en vol vertrouwen te zijn in nieuwe ervaringen. Het is een teken van vernieuwing en het loslaten van oude beperkingen. Het staat voor onbeperkte mogelijkheden en de vrijheid om te handelen zonder vooraf bedachte plannen. De Dwaas vertrouwt op het universum en zijn vermogen om het pad te vinden.",
+                descriptionReversed: "Wanneer de Dwaas omgekeerd verschijnt, kan dit wijzen op onverantwoord gedrag, impulsiviteit of het niet nemen van noodzakelijke risico’s. Het kan ook aangeven dat je niet bereid bent om buiten je comfortzone te stappen, uit angst voor falen of onzekerheid. Je kunt te veel vasthouden aan veiligheid en routine, wat je belemmert in je groei. Het is een waarschuwing om niet door te gaan zonder je bewust te zijn van de gevolgen van je acties. Soms kan deze kaart duiden op onvoorzichtigheid of het negeren van belangrijke details. Het is tijd om terug te keren naar een evenwichtige benadering van je pad."
+            },
+            {
+                name: "De Magiër",
+                image: "https://github.com/nieuwealchemistNL/dagelijksTarot/blob/main/I%20-%20The%20Magician.jpg?raw=true",
+                descriptionUpright: "De Magiër vertegenwoordigt creatie, macht en focus. Het is een kaart van manifestatie, die je eraan herinnert dat je de kracht hebt om je dromen waar te maken. Hij heeft alle gereedschappen tot zijn beschikking om zijn visie te realiseren. Deze kaart moedigt je aan om je volledige potentieel te benutten en vertrouwen te hebben in je vermogen om succes te behalen. Het is een tijd om je creativiteit te omarmen en vertrouwen te hebben in je vaardigheden. De Magiër is een teken dat je alles hebt wat je nodig hebt om te slagen.",
+                descriptionReversed: "Wanneer de Magiër omgekeerd verschijnt, kan dit duiden op misleiding, manipulatie of het niet gebruiken van je volledige potentieel. Het kan ook wijzen op verwarring, onzekerheid of het gebruik van onethische middelen om je doelen te bereiken. De Magiër omgekeerd betekent vaak dat je niet in staat bent om je volledige kracht te benutten of je capaciteiten te verkennen. Het kan ook aangeven dat er iemand in je omgeving is die niet oprecht is. Deze kaart vraagt je om jezelf opnieuw af te stemmen en je energie correct te richten."
+            },
+            {
+                name: "De Hogepriesteres",
+                image: "https://github.com/nieuwealchemistNL/dagelijksTarot/blob/main/II%20-%20The%20High%20Priestess.jpg?raw=true",
+                descriptionUpright: "De Hogepriesteres vertegenwoordigt intuïtie, geheimen en innerlijke wijsheid. Ze is een symbool van de verbinding met het onbewuste en de diepere lagen van het zelf. Ze moedigt je aan om naar je innerlijke stem te luisteren en de verborgen waarheden in jezelf te ontdekken. Deze kaart kan ook duiden op het ontdekken van mystieke of spirituele kennis. Het is een uitnodiging om de stilte op te zoeken en de wijsheid van je onderbewustzijn te omarmen. De Hogepriesteres vraagt je om verder te kijken dan de oppervlakkige lagen van de werkelijkheid.",
+                descriptionReversed: "Wanneer de Hogepriesteres omgekeerd verschijnt, kan dit wijzen op verstopte emoties, verborgen waarheden, of het negeren van je intuïtie. Het kan duiden op het niet in contact zijn met je eigen wijsheid of het ontbreken van spirituele richting. Het kan ook aangeven dat je niet openstaat voor de diepere aspecten van jezelf of dat je niet bereid bent om je intuïtieve gaven te ontwikkelen. De Hogepriesteres omgekeerd vraagt je om jezelf opnieuw te verbinden met je innerlijke wijsheid en dieper te zoeken naar antwoorden."
+            },
+            {
+                name: "De Keizerin",
+                image: "https://github.com/nieuwealchemistNL/dagelijksTarot/blob/main/III%20-%20The%20Empress.jpg?raw=true",
+                descriptionUpright: "De Keizerin staat voor vruchtbaarheid, liefde en vrouwelijke kracht. Ze vertegenwoordigt de energie van creatie en het vermogen om ideeën en projecten in de wereld te manifesteren. Deze kaart is een symbool van overvloed, zorg en bescherming. Ze moedigt je aan om je creatieve krachten te omarmen en in harmonie met jezelf en anderen te leven. De Keizerin herinnert je eraan om liefdevol voor jezelf en anderen te zorgen. Ze vraagt je om je gevoelens en emoties te omarmen en ze de ruimte te geven om zich te ontwikkelen.",
+                descriptionReversed: "Wanneer de Keizerin omgekeerd verschijnt, kan dit wijzen op stagnatie, emotionele blokkades of verwaarlozing van jezelf of anderen. Het kan duiden op een periode van onvruchtbaarheid, waarbij je moeite hebt om nieuwe ideeën te ontwikkelen of te manifesteren. De omgekeerde Keizerin vraagt je om te reflecteren op waarom je je creativiteit of emotionele energie niet kunt laten stromen. Misschien voel je je niet ondersteund of gekoesterd, en deze kaart vraagt je om je innerlijke kracht en creativiteit weer tot leven te brengen."
+            },
+            {
+                name: "De Keizer",
+                image: "https://github.com/nieuwealchemistNL/dagelijksTarot/blob/main/IV%20-%20The%20Emperor.jpg?raw=true",
+                descriptionUpright: "De Keizer vertegenwoordigt autoriteit, stabiliteit en controle. Hij is een symbool van structuur en discipline, en staat voor het vermogen om je doelen te bereiken door middel van organisatie en strategisch denken. Deze kaart moedigt je aan om je leven in balans te brengen en een solide basis te creëren. De Keizer vraagt je om verantwoordelijkheid te nemen voor je keuzes en om je leiderschap te tonen, zowel in je eigen leven als in je relaties met anderen. Het is een tijd om vastberaden te zijn en je plannen uit te voeren.",
+                descriptionReversed: "Wanneer de Keizer omgekeerd verschijnt, kan dit wijzen op chaos, instabiliteit of het verlies van controle. Het kan duiden op autoritaire gedragingen, machtsmisbruik of een gebrek aan structuur in je leven. De omgekeerde Keizer vraagt je om te reflecteren op waarom je niet in staat bent om je autoriteit op een gezonde manier uit te oefenen. Misschien ben je te rigide of controleerbaar, of mis je de leiding over bepaalde gebieden van je leven."
+            },
+            // Voeg hier de andere 73 kaarten toe in hetzelfde format
+        ];
+
+        function drawCard() {
+            const randomCard = cards[Math.floor(Math.random() * cards.length)];
+            const isReversed = Math.random() > 0.5; // 50% kans op omgekeerd
+            const card = isReversed ? randomCard.descriptionReversed : randomCard.descriptionUpright;
+
+            document.getElementById('card-image').src = randomCard.image;
+            document.getElementById('card-description').innerText = card;
+        }
+    </script>
+
+</body>
+</html>
